@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="user" method="upgrade">
+    <name>User - DONORwiz Registration</name>
+    <author>DONORwiz Team</author>
+    <creationDate>DEC 11 2014</creationDate>
+    <copyright>Copyright 2014 DONORwiz</copyright>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <authorEmail>info@donrowiz.com</authorEmail>
+    <authorUrl>http://donrowiz.com</authorUrl>
+    <version>1.0.0.0</version>
+    <description></description>
+    <files>
+        <file plugin="donorwizregistration">donorwizregistration.php</file>
+    </files>
+</extension>
