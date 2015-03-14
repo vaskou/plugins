@@ -78,7 +78,7 @@ if (!class_exists('plgSystemdonorwizredirects')) {
 			$redirects['com_community']['register']['register'] = $register;
 			$redirects['com_community']['register'][''] = $register ;
 			
-			$redirects['com_community']['groups']['mygroups'] = JURI::root();
+			//$redirects['com_community']['groups']['mygroups'] = JURI::root();
 			
 			$redirects['com_users']['login'][''] = $login;
 			$redirects['com_users']['registration'][''] = $register;
