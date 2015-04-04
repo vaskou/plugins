@@ -70,9 +70,9 @@ if (!class_exists('plgSystemdonorwizredirects')) {
 			//$redirects['com_community'][''][''] = JURI::root();
 			//$redirects['com_community']['profile'][''] = JURI::root();
 			$redirects['com_community']['profile']['editPage'] = JURI::root();
-			$redirects['com_community']['profile']['preferences'] = JURI::root();
-			$redirects['com_community']['profile']['privacy'] = JURI::root();
-			$redirects['com_community']['profile']['linkVideo'] = JURI::root();
+			//$redirects['com_community']['profile']['preferences'] = JURI::root();
+			//$redirects['com_community']['profile']['privacy'] = JURI::root();
+			//$redirects['com_community']['profile']['linkVideo'] = JURI::root();
 			$redirects['com_community']['multiprofile']['changeprofile'] = JRoute::_('index.php?option=com_community&view=profile&task=edit&Itemid=111');
 			
 			$redirects['com_community']['register']['register'] = $register;

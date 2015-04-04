@@ -24,7 +24,7 @@ $response_message=$displayData['response_message'];
 <div style="max-width:480px;margin:0 auto;padding:10px;">
 <h2 style="text-align:center;"><?php echo JText::_('PLG_DONORWIZ_NOTIFICATIONS_OPPORTUNITIES_RESPONSES_NEW_RESPONSE_NOTIFICATION_VOLUNTEERS_WROTE');?></h2>
 <p style="text-align:center;font-style: italic;">"<?php echo $response_message;?>"</p>
-<p style="text-align:center;"><?php echo JText::_('PLG_DONORWIZ_NOTIFICATIONS_OPPORTUNITIES_RESPONSES_NEW_RESPONSE_NOTIFICATION_LINK');?> <a href="<?php echo JRoute::_('index.php?option=com_donorwiz&view=dashboard&layout=dwopportunityvolunteers&Itemid=298&id='.$opportunity_id); ?>""><?php echo JText::_('PLG_DONORWIZ_NOTIFICATIONS_OPPORTUNITIES_RESPONSES_NEW_RESPONSE_NOTIFICATION_HERE');?></a></p>
+<p style="text-align:center;"><?php echo JText::_('PLG_DONORWIZ_NOTIFICATIONS_OPPORTUNITIES_RESPONSES_NEW_RESPONSE_NOTIFICATION_LINK');?> <a target="_blank" href="<?php echo rtrim(JUri::base(), '/') . JRoute::_('index.php?option=com_donorwiz&view=dashboard&layout=dwopportunityvolunteers&Itemid=298&id='.$opportunity_id); ?>"><?php echo JText::_('PLG_DONORWIZ_NOTIFICATIONS_OPPORTUNITIES_RESPONSES_NEW_RESPONSE_NOTIFICATION_HERE');?></a></p>
 
 </div>
 </div>
