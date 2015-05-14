@@ -72,12 +72,16 @@ if (!class_exists('plgDonorwiznotifications')) {
 		/**
         * This event is triggered after a response status is created or updated
         */
-        public function onOpportunityResponseUpdate( $data ) {
+        public function onOpportunityResponseUpdate( $data , $isnew ) {
 
 			$app = JFactory::getApplication();
 			
 			//Check if we are in frontend
 			if(!$app->isSite())
+				return;
+
+			//Check if response is Trashed, then do nothing
+			if( $data ["state"] == "-2")
 				return;
 			
 			//Notify the Beneficiary -------------------------------------------------------------------------------------------------
@@ -93,7 +97,10 @@ if (!class_exists('plgDonorwiznotifications')) {
 			$mailParams['layout_path'] = JPATH_ROOT .'/plugins/donorwiz/notifications/layouts/emails/opportunities_responses';
 			$mailParams['layout_params'] = array( 'opportunity_title' => $opportunity->title ,'opportunity_id' => $opportunity->id , 'response_message' => $data['message']  );
 
-			$donorwizMail -> sendMail( $mailParams ) ;			
+			$donorwizMail -> sendMail( $mailParams ) ;
+			
+			if ( $isnew == true)
+				$this->donorwizStreamAddNewResponse( $data , $opportunity );
 		}
 		
         /**
@@ -134,5 +141,21 @@ if (!class_exists('plgDonorwiznotifications')) {
 			
 			
         }
+		
+		private function donorwizStreamAddNewResponse( $data , $opportunity ){
+			
+			$act            = new stdClass();
+			$act->cmd 		= 'donorwizstream.newresponse';
+			$act->actor 	= JFactory::getUser( ) -> email -> id;
+			$act->target 	= $opportunity - created_by;
+			$act->title 	= 'title';
+			$act->content 	= 'Your activity content';
+			// Pay close attention on this
+			$act->app 	= 'donorwizstream.newresponse';
+			$act->access  = 0; // 0 = Public; 20 = Site members; 30 = Friends Only; 40 = Only Me
+			$act->cid       = 0;
+			 
+			CActivityStream::add($act);
+		}
     }
 }

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="community" method="upgrade">
+	<name>Community - DONORwiz stream</name>
+	<author>DONORwiz</author>
+	<creationDate>May 2015</creationDate>
+	<copyright>Copyright 2015 - DONORwiz</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<authorEmail>info@donorwiz.com</authorEmail>
+	<authorUrl>http://www.donorwiz.com</authorUrl>
+	<version>1.0.0</version>
+	<isapplication>false</isapplication>
+ 
+	<description>PLG_DONORWIZSTREAM_DESCRIPTION</description>
+ 
+	<languages folder="language">
+		<language tag="el-GR">el-GR.plg_community_donorwizstream.ini</language>
+        
+	</languages>
+ 
+	<files>
+		<file plugin="donorwizstream">donorwizstream.php</file>
+        <filename>index.html</filename>
+
+	</files>
+	<config>
+	<fields name="params">
+		<fieldset name="basic">
+			<field name="coreapp" type="radio" default="0" label="Core Application" description="Causes this application to not appear in the users applications list but it will allow this application to appear in the user profile automatically if selected.">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field name="cache" type="list" default="1" label="Caching" description="Select whether to cache the content of this plugin">
+				<option value="1">Use Global</option>
+				<option value="0">No</option>
+			</field>
+			<field name="position" type="list" default="content" label="Position" description="Default position if you select this as core apps">
+					<option value="content">Main  content</option>
+					<option value="sidebar-top">Sidebar top</option>
+					<option value="sidebar-bottom">Sidebar bottom</option>
+			</field>
+		</fieldset>
+	</fields>
+	</config>
+</extension>
