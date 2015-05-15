@@ -22,6 +22,7 @@ if (!class_exists('plgDonorwiznotifications')) {
         function plgDonorwiznotifications(& $subject, $config) {
 			
 			JFactory::getLanguage()->load( 'plg_donorwiz_notifications');
+			JPlugin::loadLanguage ( 'plg_community_donorwizstream', JPATH_SITE );
 			
             parent::__construct($subject, $config);
         }
@@ -37,7 +38,6 @@ if (!class_exists('plgDonorwiznotifications')) {
 			if(!$app->isSite())
 				return;
 			
-
 			//Notify Donor
 			
 			$donorwizMail = new DonorwizMail();
@@ -65,6 +65,16 @@ if (!class_exists('plgDonorwiznotifications')) {
 			$mailParams['layout_params'] = array( 'amount' => $payment -> amount , 'donor' => $payment -> fname.' '.$payment -> lname );
 
 			$donorwizMail -> sendMail( $mailParams ) ;
+			
+			
+			//Add activity stream
+			$isAnonymous = ( $payment -> created_by == 0 ) ? true : false ;
+			$actor = ( $isAnonymous == true) ? $beneficiary -> id :  $payment -> created_by ;
+			$target =  ( $isAnonymous == true ) ? 0 : $beneficiary -> id ;
+			$content = JText::sprintf('PLG_DONORWIZSTREAM_DONATION_NEW_CONTENT', $beneficiary -> id , $beneficiary -> name );
+			$anonymous = ( $isAnonymous == true ) ? 'Anonymous' : '' ;
+			$activity = 'donorwizstream.'.__FUNCTION__.$anonymous;
+			$this->addDonorwizActivity( $actor, $target , $content , $activity );
 
 		}
 			
@@ -99,8 +109,14 @@ if (!class_exists('plgDonorwiznotifications')) {
 
 			$donorwizMail -> sendMail( $mailParams ) ;
 			
-			if ( $isnew == true)
-				$this->donorwizStreamAddNewResponse( $data , $opportunity );
+			//Add activity stream
+			if( $isnew == true ){
+				$actor = $data ["created_by"];
+				$target =  $opportunity -> created_by ;
+				$content = JText::_('PLG_DONORWIZSTREAM_OPPORTUNITY_RESPONSE_NEW_CONTENT').'<a href="'.JRoute::_('index.php?option=com_dw_opportunities&view=dwopportunity&Itemid=261&id='. $opportunity->id).'">'.$opportunity->title.'</a>';
+				$activity = 'donorwizstream.'.__FUNCTION__;
+				$this->addDonorwizActivity( $actor, $target , $content , $activity );
+			}
 		}
 		
         /**
@@ -142,16 +158,33 @@ if (!class_exists('plgDonorwiznotifications')) {
 			
         }
 		
-		private function donorwizStreamAddNewResponse( $data , $opportunity ){
+		private function addDonorwizActivity( $actor, $target , $content , $activity ){
 			
 			$act            = new stdClass();
-			$act->cmd 		= 'donorwizstream.newresponse';
-			$act->actor 	= JFactory::getUser( ) -> email -> id;
-			$act->target 	= $opportunity - created_by;
-			$act->title 	= 'title';
-			$act->content 	= 'Your activity content';
+			$act->cmd 		= $activity;
+			$act->actor 	= $actor;
+			$act->target 	= $target;
+			$act->title		= '';
+			
+			
+			$actorLink = '<a class="cStream-Author" href="' .CUrlHelper::userLink(CFactory::getUser($actor)->id).'">'.CFactory::getUser($actor)->getDisplayName().'</a>';
+			if( $target!=0 ){
+				$targetLink = '<a class="cStream-Author" href="' .CUrlHelper::userLink(CFactory::getUser($target)->id).'">'.CFactory::getUser($target)->getDisplayName().'</a>';
+			}
+		
+			if ( $activity == 'donorwizstream.onOpportunityResponseUpdate' ){
+				$act->title = JText::sprintf('PLG_DONORWIZSTREAM_OPPORTUNITY_RESPONSE_NEW_HEADLINE', $actorLink , $targetLink );
+			}
+			if ( $activity == 'donorwizstream.onDonationSuccess' ){
+				$act->title = JText::sprintf('PLG_DONORWIZSTREAM_DONATION_NEW_HEADLINE', $actorLink , $targetLink );
+			}		
+			if ( $activity == 'donorwizstream.onDonationSuccessAnonymous' ){
+				$act->title = JText::sprintf('PLG_DONORWIZSTREAM_DONATION_ANONYMOUS_NEW_HEADLINE', $actorLink );
+			}
+			
+			$act->content 	= $content;
 			// Pay close attention on this
-			$act->app 	= 'donorwizstream.newresponse';
+			$act->app 	= $activity;
 			$act->access  = 0; // 0 = Public; 20 = Site members; 30 = Friends Only; 40 = Only Me
 			$act->cid       = 0;
 			 
