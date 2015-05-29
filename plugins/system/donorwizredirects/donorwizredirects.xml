@@ -12,4 +12,16 @@
     <files>
         <file plugin="donorwizredirects">donorwizredirects.php</file>
     </files>
+	<!-- Parameters -->
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="login_redirect_to_dashbaord" type="menuitem"
+					label="Select"
+                    multiple="true"
+					description="Select menuitem in which login redirects to dashboard"
+					/>
+			</fieldset>
+		</fields>
+	</config>
 </extension>
