@@ -16,10 +16,10 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
-				<field name="login_redirect_to_dashbaord" type="menuitem"
+				<field name="login_redirect_same_page" type="menuitem"
 					label="Select"
                     multiple="true"
-					description="Select menuitem in which login redirects to dashboard"
+					description="Select menuitem in which login redirects to same page"
 					/>
 			</fieldset>
 		</fields>

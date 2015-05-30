@@ -63,8 +63,11 @@ if (!class_exists('plgSystemdonorwizredirects')) {
 			$redirects = array();
 			
 			$error404 = JRoute::_('index.php?option=com_donorwiz&view=error&Itemid=394') ;
-			$login = JRoute::_('index.php?option=com_donorwiz&view=login&Itemid=314&return='.base64_encode(JFactory::getURI()->toString()).'&'. JSession::getFormToken() .'=1');
-			$register = JRoute::_('index.php?option=com_donorwiz&view=login&Itemid=314&mode=register&return='.base64_encode(JFactory::getURI()->toString()).'&'. JSession::getFormToken() .'=1');
+			
+			//Login register redirects
+			$return =  base64_encode ( JRoute::_('index.php?Itemid='. JFactory::getApplication()->getMenu()->getItems( 'link', 'index.php?option=com_donorwiz&view=dashboard', true )->id ) );
+			$login = JRoute::_('index.php?option=com_donorwiz&view=login&Itemid=314&return='.$return);
+			$register = JRoute::_('index.php?option=com_donorwiz&view=login&Itemid=314&mode=register&return='.$return);
 			
 			//Jomsocial-------------------------------------------------------
 			//$redirects['com_community'][''][''] = JURI::root();
