@@ -23,8 +23,10 @@ if (!class_exists('plgUserdonorwizregistration')) {
          * @param type $config
          */
         function plgUserdonorwizregistration(& $subject, $config) {
-            parent::__construct($subject, $config);
 			
+			JFactory::getLanguage()->load( 'plg_user_donorwizregistration');
+
+			parent::__construct($subject, $config);
 			
         }
 		
@@ -42,6 +44,8 @@ if (!class_exists('plgUserdonorwizregistration')) {
 				$this -> saveFirstAndLastName($user);
 								
 				$this -> setUserProfileTypeAndPoints( CFactory::getUser($user['id']) , 1 , 0 );
+				
+				$this -> sendWelcomeEmail($user);
 				
 				$return_url=$app->input->get('return',false,'BASE64');
 				
@@ -85,6 +89,21 @@ if (!class_exists('plgUserdonorwizregistration')) {
 			$cuser->_points += $points;
 			$cuser->save();
 		
+		}
+		
+		private function sendWelcomeEmail($user){
+			
+			$donorwizMail = new DonorwizMail();
+			$mailParams = array();
+			$mailParams['subject'] = $user['name'].', '.JText::_('PLG_USER_DONORWIZREGISTRATION_WELCOME_EMAIL_SUBJECT');
+			$mailParams['recipient'] = $user ['email'];
+			$mailParams['isHTML'] = true;
+			$mailParams['layout'] = 'welcome';
+			$mailParams['layout_path'] = JPATH_ROOT .'/plugins/user/donorwizregistration/layouts/emails';
+			$mailParams['layout_params'] = array( 'user' => $user );
+
+			$donorwizMail -> sendMail( $mailParams ) ;
+			
 		}
 
     }
