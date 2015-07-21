@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.0" type="plugin" group="system" method="upgrade">
+    <name>System - Donorwiz Facebook Open Graph</name>
+    <author>Donorwiz</author>
+    <creationDate>October 2014</creationDate>
+    <copyright>Copyright (C) 2014  Donorwiz.</copyright>
+    <license>GNU General Public License version 2 or later.</license>
+    <authorEmail>info@donorwiz.com</authorEmail>
+    <authorUrl>www.donorwiz.com</authorUrl>
+    <version>1.0.0</version>
+    <description></description>
+ 
+    <files>
+        <filename plugin="donorwizfbopengraph">donorwizfbopengraph.php</filename>
+        <filename>index.html</filename>
+    </files>
+	
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="og_description" type="text" default="" label="Facebook Open Graph Description" />
+				<field name="og_site_name" type="text" default="" label="Facebook Open Graph Site Name" />
+				<field name="og_image" type="media" default="" label="Facebook Open Graph Image" />
+				<field name="fb_app_id" type="text" default="" label="Facebook Open Graph Application ID" />
+				<field name="og_type" type="text" default="" label="Facebook Open Graph Type" />
+			</fieldset>
+		</fields>
+	</config>
+</extension>
