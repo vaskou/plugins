@@ -18,11 +18,18 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
-				<field name="og_description" type="text" default="" label="Facebook Open Graph Description" />
+				<field type="spacer" name="general_spacer" label="General parameters" />
+				<field name="description" type="text" default="" label="Description" />
+				<field name="image" type="media" default="" label="Image" />
+				
+				<field type="spacer" name="facebook_spacer" label="Facebook parameters" />
 				<field name="og_site_name" type="text" default="" label="Facebook Open Graph Site Name" />
-				<field name="og_image" type="media" default="" label="Facebook Open Graph Image" />
 				<field name="fb_app_id" type="text" default="" label="Facebook Open Graph Application ID" />
 				<field name="og_type" type="text" default="" label="Facebook Open Graph Type" />
+				
+				<field type="spacer" name="twitter_spacer" label="Twitter parameters" />
+				<field name="twt_type" type="text" default="" label="Twitter Card Type" />
+				<field name="twt_site" type="text" default="" label="Twitter Card Site (with @)" />
 			</fieldset>
 		</fields>
 	</config>

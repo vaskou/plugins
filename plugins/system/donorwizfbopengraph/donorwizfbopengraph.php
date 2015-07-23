@@ -19,24 +19,25 @@ class plgSystemDonorwizfbopengraph extends JPlugin
 		
     	$document = JFactory::getDocument();
 		
-		$og_description=$this->params->get('og_description');
-		$og_site_name=$this->params->get('og_site_name');
-		$og_image=( strpos($this->params->get('og_image'),'http') === 0 ) ? $this->params->get('og_image') : JUri::base().$this->params->get('og_image');
-		$fb_app_id=$this->params->get('fb_app_id');
-		$og_type=$this->params->get('og_type');
+		//General parameters
+		$fb_tags['og:url'] = $twt_tags['twitter:url'] = JFactory::getURI()->toString();
+		$fb_tags['og:title'] = $twt_tags['twitter:title'] = $document->title ;
+		$fb_tags['og:description'] = $twt_tags['twitter:description'] = $this->params->get('description');
+		$fb_tags['og:image'] = $twt_tags['twitter:image'] = ( strpos($this->params->get('image'),'http') === 0 ) ? $this->params->get('image') : JUri::base().$this->params->get('image');
 		
-		$tags['og:url']=JFactory::getURI()->toString();
-		$tags['og:title']=$document->title ;
-		$tags['og:description']=$og_description;
-		$tags['og:site_name']=$og_site_name;
-		$tags['og:image']=$og_image;
-		$tags['fb:app_id']=$fb_app_id;
-		$tags['og:type']=$og_type;
-		$tags['og:locale']=str_replace ( '-' , '_' ,JFactory::getLanguage()->getTag() );
+		//Facebook parameters
+		$fb_tags['og:site_name'] = $this->params->get('og_site_name');
+		$fb_tags['fb:app_id'] = $this->params->get('fb_app_id');
+		$fb_tags['og:type'] = $this->params->get('og_type');
+		$fb_tags['og:locale'] = str_replace ( '-' , '_' ,JFactory::getLanguage()->getTag() );
 		
-		//Basic
+		//Twitter parameters
+		$twt_tags['twitter:card'] = $this->params->get('twt_type');
+		$twt_tags['twitter:site'] = $this->params->get('twt_site');
+		
+		//Facebook tags
 		if( isset($document->_custom) ){
-			foreach($tags as $key=>$tag){
+			foreach($fb_tags as $key=>$tag){
 				$tag_exists=false;
 				foreach($document->_custom as $c_tag){
 					if( strpos($c_tag,$key) !== false ){
@@ -51,6 +52,24 @@ class plgSystemDonorwizfbopengraph extends JPlugin
 				}
 			}
 		}
-		var_dump($document->_custom);
+		
+		//Twitter tags
+		if( isset($document->_metaTags) ){
+			foreach($twt_tags as $key=>$tag){
+				$tag_exists=false;
+				foreach($document->_metaTags['standard'] as $m_key=>$m_tag){
+					if( $key == $m_key ){
+						$tag_exists=true;
+						break;
+					}
+				}
+				if(!$tag_exists){
+					if(!empty($tag)){
+						$document->setMetaData($key,$tag);
+					}
+				}
+			}
+		}
+		
     }
 }
